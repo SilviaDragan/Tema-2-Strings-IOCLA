@@ -187,7 +187,7 @@ next4:
     xor     ebx, ebx
     xor     ecx, ecx
     
-    mov     byte ecx, [contor_hexa_value]
+    mov     cl, [contor_hexa_value]
 
     mov     ebx, [hexa_value]
 

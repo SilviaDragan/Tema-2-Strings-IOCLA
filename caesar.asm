@@ -16,20 +16,14 @@ caesar:
     mov     ecx, [ebp + 20]     ; length
     ;; DO NOT MODIFY
 
-	mov     edx, [ebp + 8]      ; ciphertext
-    mov     esi, [ebp + 12]     ; plaintext
-    mov     edi, [ebp + 16]     ; key
-    mov     ecx, [ebp + 20]     ; length
-    ;; DO NOT MODIFY
-
-    ;; TODO: Implement the caesar cipher
-
+    ;push edx in stack to be ready to be used in solving this task
 	push 	edx
 
 	xor 	eax, eax
 	xor 	ebx, ebx
 	xor 	edx, edx
 
+	;calculate the remainder of the key divided to the number of letters from english alphabet 
 	mov 	eax, edi
 	mov 	ebx, 26
 	div 	ebx	
@@ -38,12 +32,16 @@ caesar:
 
 	mov 	ebx, edx
 
+	;take character by character in a loop to check if it is letter and apply the rotation on it
+	;else the algorithm doesn't modify the character
 each_letter:
 	mov 	al, byte [esi + ecx - 1]
 	
+	;check if it is space skip it
 	cmp 	eax, 32
 	je 		altceva
 
+	;check if it is letter
 	cmp 	eax, 96
 	jle 	could_be_uppercase
 	cmp 	eax, 122
@@ -57,7 +55,7 @@ could_be_uppercase:
 	jg 		altceva
 
 could_be_lowercase:
-
+	;add the key and then check if it is exceed the chracter ascii code and apply the rotation
 	add 	eax, ebx	
 	cmp 	eax, 90
 	jle 	is_upper
@@ -80,6 +78,7 @@ is_upper:
 
 altceva:
 
+	;pop from stack edx so we can store at the address with edx offset the new character
 	pop 	edx
 	
 	mov 	[edx + ecx - 1], al	
