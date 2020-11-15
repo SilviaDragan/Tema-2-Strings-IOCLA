@@ -1,1 +1,74 @@
 Stan Lucian Mihai 321CB
+
+otp.asm
+
+iterate through plaintext and key character by character and apply xor between 
+two characters
+put the result at the address from base edx with the same offset
+
+
+caesar.asm
+
+push edx in stack to be ready to be used in solving this task
+calculate the remainder of the key divided to the number of letters from 
+english alphabet
+take character by character in a loop to check if it is letter and apply 
+the rotation on it else the algorithm doesn't modify the character
+check if it is space skip it
+check if it is letter
+add the key and then check if it is exceed the chracter ascii code and apply 
+the rotation
+pop from stack edx so we can store at the address with edx offset the new 
+character
+
+
+vigerene.asm
+
+put in stack the three arithmetical registers to use them 
+use ebx as a iterator for plaintext
+iterate through plaintext character by character and try to apply rotation
+on the current character with the order of the current letter from key
+increment the contor of plaintext but dont increment at this moment the 
+iterator for key
+increment the iterator for key only if the plaintex[ebx] is letter
+copy from stack the address where the letter should be putted
+copy from stack the length of plaintext
+compare the iterator from ebx with the length of plaintext
+
+
+my_strstr.asm
+
+push arithmetical registers to be able to use them
+iterate through characters of haystack search for the first character 
+which is equal with
+the first character from the needle
+then we increment the iterator for needle
+if there are difference between the two compared characters the iterator 
+for needle string is reseted to 0
+at the end we check if the iterator is equal to needle_len to decide if 
+the string was found
+
+
+bin_to_hex.asm
+
+initialize some auxiliar values
+calculate the remainder of the length of bin_sequence divided by 4
+we try to calculate the hexa value for the reminder 
+put in start_4 value the position where we could take 4 by 4 elements 
+to calculate the hexa value
+if the remainder is 0 jump to the final_for which means that the length
+is multiple of four
+iterating through the remainder to calculate the value in hexa using shifters
+compare the current character with 0 ascii value
+is not zero then shift it with 3 - iterartor number sum the numbers
+put the ecx value from values vector
+take groups of four to calculate the hexa_value
+take the first element in the group of four
+if is not zero shift it and add the new number to edx which is a container 
+for the sum of four elements
+take the second element in the group of four
+take the third element in the group of four
+take the fourth element in the group of four
+take the edx value from values vector
+put it at the specified address
+add \n to the end of the string

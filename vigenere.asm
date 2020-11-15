@@ -40,7 +40,8 @@ for:
     mov     al, [esi + ebx]
     add     ebx, 1
     
-    ;increment the contor of plaintext but dont increment at this moment the iterator for key
+    ;increment the contor of plaintext but dont increment at this moment the 
+    ;iterator for key
     xor     edx, edx
     mov     edx, [esp + 4] ;current key_pointer
 

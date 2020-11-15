@@ -32,12 +32,15 @@ my_strstr:
     xor     ecx, ecx
     xor     edx, edx
 
-    ;iterate through characters of haystack search for the first character which is equal with
+    ;iterate through characters of haystack search for the first character 
+    ;which is equal with
     ;the first character from the needle
     ;then we increment the iterator for needle
-    ;if there are difference between the two compared characters the iterator for needle string
+    ;if there are difference between the two compared characters the iterator 
+    ;for needle string
     ;is reseted to 0
-    ;at the end we check if the iterator is equal to needle_len to decide if the string was found
+    ;at the end we check if the iterator is equal to needle_len to decide if 
+    ;the string was found
 while:
     xor     ecx, ecx
     mov     ecx, [esp + 4]

@@ -23,7 +23,8 @@ caesar:
 	xor 	ebx, ebx
 	xor 	edx, edx
 
-	;calculate the remainder of the key divided to the number of letters from english alphabet 
+	;calculate the remainder of the key divided to the number of letters from 
+	;english alphabet 
 	mov 	eax, edi
 	mov 	ebx, 26
 	div 	ebx	
@@ -32,7 +33,8 @@ caesar:
 
 	mov 	ebx, edx
 
-	;take character by character in a loop to check if it is letter and apply the rotation on it
+	;take character by character in a loop to check if it is letter and apply 
+	;the rotation on it
 	;else the algorithm doesn't modify the character
 each_letter:
 	mov 	al, byte [esi + ecx - 1]
@@ -55,7 +57,8 @@ could_be_uppercase:
 	jg 		altceva
 
 could_be_lowercase:
-	;add the key and then check if it is exceed the chracter ascii code and apply the rotation
+	;add the key and then check if it is exceed the chracter ascii code and 
+	;apply the rotation
 	add 	eax, ebx	
 	cmp 	eax, 90
 	jle 	is_upper
@@ -78,7 +81,8 @@ is_upper:
 
 altceva:
 
-	;pop from stack edx so we can store at the address with edx offset the new character
+	;pop from stack edx so we can store at the address with edx offset the new 
+	;character
 	pop 	edx
 	
 	mov 	[edx + ecx - 1], al	

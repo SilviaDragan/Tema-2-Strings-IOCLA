@@ -44,8 +44,8 @@ bin_to_hex:
     mov     bl, ah
     mov     [start_4], bl
 
-    ;put in start_4 value the position where we could take 4 by 4 elements to calculate
-    ;the hexa value
+    ;put in start_4 value the position where we could take 4 by 4 elements 
+    ;to calculate the hexa value
 
     cmp     bl, 0
     je      for_four
@@ -59,7 +59,8 @@ bin_to_hex:
     xor     ecx, ecx
     xor     edx, edx
 
-    ;iterating through the remainder to calculate the value in hexa using shifters 
+    ;iterating through the remainder to calculate the value in hexa using 
+    ;shifters 
 
 for:
     mov     eax, [contor]
@@ -135,8 +136,8 @@ for_four:
     mov     eax, [esi + ebx]
     cmp     al, 48
     je      next1
-    ;if is not zero shift it and add the new number to edx which is a container for 
-    ;the sum of four elements
+    ;if is not zero shift it and add the new number to edx which is a 
+    ;container for the sum of four elements
     mov     ecx, 1
     shl     ecx, 3
 
