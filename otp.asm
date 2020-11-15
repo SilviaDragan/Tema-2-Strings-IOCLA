@@ -19,15 +19,14 @@ otp:
 	xor    eax, eax
 	xor    ebx, ebx
 
-    ;
-
+    ;iterate through plaintext and key character by character and apply xor between two characters
 loop_otp:
-
+    ;used two registers to copy the character from esi + ecx - 1, -2 ....
 	mov    al, byte [esi + ecx - 1]	
 	mov    bl, byte [edi + ecx - 1]
 	
 	xor    eax, ebx
-
+    ;put the result at the address from base edx with the same offset
 	mov    [edx + ecx - 1], al
 	
 	xor    eax, eax
