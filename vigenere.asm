@@ -17,6 +17,7 @@ vigenere:
     mov     ebx, [ebp + 24]     ; key_len
     ;; DO NOT MODIFY
 
+    ;put in stack the three arithmetical registers to use them 
 	push    edx
     push    ebx
     push    ecx    
@@ -29,14 +30,17 @@ vigenere:
     xor     edx, edx
     xor     ecx, ecx
 
+    ;use ebx as a iterator for plaintext
     mov     ebx, 0
 
 for:
     xor     eax, eax
-
+    ;iterate through plaintext character by character and try to apply rotation
+    ;on the current character with the order of the current letter from key
     mov     al, [esi + ebx]
     add     ebx, 1
-
+    
+    ;increment the contor of plaintext but dont increment at this moment the iterator for key
     xor     edx, edx
     mov     edx, [esp + 4] ;current key_pointer
 
@@ -61,6 +65,7 @@ could_be_uppercase:
     jg      altceva
 
 could_be_lowercase:
+    ;increment the iterator for key only if the plaintex[ebx] is letter
     add     edx, 1
     cmp     edx, [esp + 12] 
     jl is_in_key
@@ -104,15 +109,19 @@ is_upper:
 
 altceva:
 
+    ;copy from stack the address where the letter should be putted
     mov     [esp + 4], edx
     mov     edx, [esp + 16]
     mov     [edx + ebx - 1], al
 
     xor     ecx, ecx
 
+    ;copy from stack the length of plaintext
     mov     ecx, [esp + 8]
+    ;compare the iterator from ebx with the length of plaintext
     cmp     ebx, ecx
     jl      for
+    ;loop
 
     pop     eax
     pop     eax
