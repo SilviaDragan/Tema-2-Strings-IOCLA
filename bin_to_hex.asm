@@ -26,6 +26,7 @@ bin_to_hex:
 
 	mov     eax, 0
 
+    ;initialize some auxiliar values
     mov     [contor], eax
     mov     [sum], eax
     mov     [length], ecx
@@ -34,17 +35,23 @@ bin_to_hex:
 
     xor     edx, edx
 
+    ;calculate the remainder of the length of bin_sequence divided by 4
     mov     al, cl
     mov     bl, byte 4
-
     div     bl
 
-    mov bl, ah
+    ;we try to calculate the hexa value for the reminder 
+    mov     bl, ah
+    mov     [start_4], bl
 
-    mov [start_4], bl
+    ;put in start_4 value the position where we could take 4 by 4 elements to calculate
+    ;the hexa value
 
     cmp     bl, 0
-    je      final_for
+    je      for_four
+
+    ;if the remainder is 0 jump to the final_for which means that the length
+    ;is multiple of four
 
     sub     bl, 1
 
@@ -52,13 +59,17 @@ bin_to_hex:
     xor     ecx, ecx
     xor     edx, edx
 
+    ;iterating through the remainder to calculate the value in hexa using shifters 
+
 for:
     mov     eax, [contor]
     mov     cl, [esi + eax]
 
+    ;compare the current character with 0 ascii value
     cmp     cl, 48
     je      is_zero
 
+    ;is not zero then shift it with 3 - iterartor number
     mov     edx, ebx
     sub     edx, eax
 
@@ -77,11 +88,9 @@ shift_two_times:
 
 shift_one_time:
     cmp     dl, byte 1
-    jne     dont_shift
+    jne     shifted
     shl     ecx, 1
     jmp     shifted
-
-dont_shift:
 
 shifted:
     
@@ -90,17 +99,18 @@ shifted:
 
 is_zero:    
 
+    ;sum the numbers
     mov     [sum], edx
 
     add     eax, 1
     mov     [contor], eax
-
 
     cmp     al, bl
     jle     for
 
     mov     ecx, [sum]
 
+    ;put the ecx value from values vector
     mov     cl, [values + ecx]
 
     xor     edx, edx
@@ -108,29 +118,25 @@ is_zero:
     mov     dl, [contor_hexa_value]
 
     mov     ebx, [hexa_value]
-
     mov     [ebx], byte cl
 
     inc     edx
     mov     [contor_hexa_value], edx
     
 
-final_for:
-
-
-mata:
-
 for_four:
-
-    xor     edx, edx
+    ;take groups of four to calculate the hexa_value
+    xor     edx, edx    
 
     mov     ebx, [start_4]
     mov     ecx, 0
-    
 
+    ;take the first element in the group of four
     mov     eax, [esi + ebx]
     cmp     al, 48
     je      next1
+    ;if is not zero shift it and add the new number to edx which is a container for 
+    ;the sum of four elements
     mov     ecx, 1
     shl     ecx, 3
 
@@ -138,10 +144,9 @@ next1:
     
     add     edx, ecx
 
-    ;PRINTF32 `EDX1 %u\n\x0`, edx
-
     mov     ecx, 0
 
+    ;take the second element in the group of four
     mov     eax, [esi + ebx + 1]
     cmp     al, 48
     je      next2
@@ -152,11 +157,9 @@ next2:
 
     add     edx, ecx
 
-    ;PRINTF32 `EDX2 %u\n\x0`, edx
-
-
     mov     ecx, 0
 
+    ;take the third element in the group of four
     mov     eax, [esi + ebx + 2]
     cmp     al, 48
     je      next3
@@ -167,11 +170,9 @@ next3:
 
     add     edx, ecx
 
-    ;PRINTF32 `EDX3 %u\n\x0`, edx
-
-
     mov     ecx, 0
 
+    ;take the fourth element in the group of four
     mov     eax, [esi + ebx + 3]
     cmp     al, 48
     je      next4
@@ -182,11 +183,13 @@ next4:
 
     add     edx, ecx
 
+    ;take the edx value from values vector
     mov     edx, [values + edx]
 
     xor     ebx, ebx
     xor     ecx, ecx
     
+    ;put it at the specified address
     mov     cl, [contor_hexa_value]
 
     mov     ebx, [hexa_value]
@@ -209,17 +212,13 @@ next4:
 
 out:
 
-
-
+    ;add \n to the end of the string
     mov     eax, [contor_hexa_value]
 
     mov     edx, [hexa_value]
     mov     ebx, [length]
 
     mov     byte [edx + eax], 0x0A
-
-
-    ;; TODO: Implement bin to hex
 
     ;; DO NOT MODIFY
     popa
