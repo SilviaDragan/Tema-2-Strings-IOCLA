@@ -17,11 +17,12 @@ my_strstr:
     mov     edx, [ebp + 24]     ; needle_len
     ;; DO NOT MODIFY
 
-    mov     dword [ebp - 4], 0      ;contor pentru haystack
-    mov     dword [ebp - 8], 0      ;contor pentru needle
+    mov     dword [ebp - 4], 0      ;iterator for haystack
+    mov     dword [ebp - 8], 0      ;iterator for needle
 
     mov     dword [ebp - 12], ecx   ;haystack_len
 	
+    ;push arithmetical registers to be able to use them
 	push    edx
     push    ecx
     push    ebx
@@ -31,6 +32,12 @@ my_strstr:
     xor     ecx, ecx
     xor     edx, edx
 
+    ;iterate through characters of haystack search for the first character which is equal with
+    ;the first character from the needle
+    ;then we increment the iterator for needle
+    ;if there are difference between the two compared characters the iterator for needle string
+    ;is reseted to 0
+    ;at the end we check if the iterator is equal to needle_len to decide if the string was found
 while:
     xor     ecx, ecx
     mov     ecx, [esp + 4]
@@ -94,6 +101,9 @@ increment_i:
     
 end:
 
+    mov     edx, [esp + 8]
+    cmp     dword [ebp - 8], edx
+    je      found
     cmp     dword [ebp - 8], 0
     jne     found
 
